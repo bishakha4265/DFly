@@ -12,8 +12,8 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build -f ./DFly-Docker/Dockerfile -t $REPOSITORY_URI:latest .
-      - docker build -f ./NGINX/Dockerfile -t $REPOSITORY_URI:latest .
+      - docker build  -t $REPOSITORY_URI:latest -f ./DFly-Docker/Dockerfile .
+      - docker build  -t $REPOSITORY_URI:latest -f ./NGINX/Dockerfile .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
