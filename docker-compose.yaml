@@ -1,0 +1,6 @@
+version: '3'
+
+services:
+  dflyapp:
+    build: ./DFly-Docker
+    network_mode: host
