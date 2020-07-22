@@ -13,10 +13,10 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build -t $REPOSITORY_URI-Dfly:latest -f ./DFly-Docker/Dockerfile .
-      - docker build -t $REPOSITORY_URI-Nginx:latest -f ./NGINX/Dockerfile .
-      - docker tag $REPOSITORY_URI-Dfly:latest $REPOSITORY_URI-Dfly:$IMAGE_TAG
-      - docker tag $REPOSITORY_URI-Nginx:latest $REPOSITORY_URI-Nginx:$IMAGE_TAG
+      - docker build -t $REPOSITORY_URI-dfly:latest -f ./DFly-Docker/Dockerfile .
+      - docker build -t $REPOSITORY_URI-nginx:latest -f ./NGINX/Dockerfile .
+      - docker tag $REPOSITORY_URI-dfly:latest $REPOSITORY_URI-dfly:$IMAGE_TAG
+      - docker tag $REPOSITORY_URI-nginx:latest $REPOSITORY_URI-nginx:$IMAGE_TAG
 
 
   post_build:
