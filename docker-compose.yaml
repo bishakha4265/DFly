@@ -3,4 +3,6 @@ version: '3'
 services:
   dflyapp:
     build: ./DFly-Docker
+    ports:
+      - "8000:5000"
     network_mode: host
