@@ -4,5 +4,5 @@ services:
   dflyapp:
     build: ./DFly-Docker
     ports:
-      - "80:5000"
-    network_mode: bridge
+      - "8000:8000"
+    network_mode: host
