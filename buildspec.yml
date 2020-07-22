@@ -7,22 +7,23 @@ phases:
       - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
       - REPOSITORY_URI=042794132985.dkr.ecr.us-east-1.amazonaws.com/dfly-app
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
+      - IMAGE_TAG=dfly-app-build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
+      - IMAGE_TAG_1=custom-nginx-build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
 
   build:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build -t $REPOSITORY_URI-dfly:latest -f ./DFly-Docker/Dockerfile .
-      - docker build -t $REPOSITORY_URI-nginx:latest -f ./NGINX/Dockerfile .
-      - docker tag $REPOSITORY_URI-dfly:latest $REPOSITORY_URI-dfly:$IMAGE_TAG
-      - docker tag $REPOSITORY_URI-nginx:latest $REPOSITORY_URI-nginx:$IMAGE_TAG
+      - docker build -t $REPOSITORY_URI:latest -f ./DFly-Docker/Dockerfile .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+      - docker build -t $REPOSITORY_URI:latest -f ./NGINX/Dockerfile .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG_1
 
 
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
-      - docker push $REPOSITORY_URI-dfly:latest
-      - docker push $REPOSITORY_URI-dfly:$IMAGE_TAG
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - docker push $REPOSITORY_URI:$IMAGE_TAG_1
 
