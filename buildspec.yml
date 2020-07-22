@@ -19,4 +19,5 @@ phases:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
-      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - docker push Dfly-$REPOSITORY_URI:$IMAGE_TAG
+      - docker push NGINX-$REPOSITORY_URI:$IMAGE_TAG
