@@ -6,3 +6,10 @@ services:
     ports:
       - "8000:8000"
     network_mode: host
+  nginx:
+    build: ./NGINX
+    container_name: nginx
+    environment:
+      - SERVER-NAME=curl http://169.254.169.254/latest/meta-data/public-ipv4
+    restart: always
+    network_mode: host
