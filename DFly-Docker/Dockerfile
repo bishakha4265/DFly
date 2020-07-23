@@ -9,4 +9,4 @@ ADD . ~/Code
 RUN pip3 install -r requirements.txt
 WORKDIR ~/Code
 
-CMD ["gunicorn3", "-b", "0.0.0.0:8000", "app:app", "--workers=5"]
+CMD ["cd .. && gunicorn3", "-b", "0.0.0.0:8000", "app:app", "--workers=5"]
