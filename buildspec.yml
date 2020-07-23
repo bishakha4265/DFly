@@ -31,6 +31,5 @@ phases:
       - echo Pushing the Docker image...
       - docker push $REPOSITORY_URI:$IMAGE_TAG_DFLY
       - docker push $REPOSITORY_URI:$IMAGE_TAG_DFLY_LATEST
-      - docker push $REPOSITORY_URI:$IMAGE_TAG_NGINX
-      - docker push $REPOSITORY_URI:$IMAGE_TAG_NGINX_LATEST
+ 
 
