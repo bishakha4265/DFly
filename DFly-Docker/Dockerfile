@@ -5,8 +5,8 @@ RUN apt-get install python3-pip -y
 RUN apt-get install gunicorn3 -y
 COPY ./DFly-Docker/requirements.txt requirements.txt
 RUN mkdir ~/Code
-ADD . ~/Code
+COPY ./DFly-Docker/flaskapp  ~/Code/
 RUN pip3 install -r requirements.txt
-WORKDIR ~/Code
+WORKDIR ~/Code/
 
-CMD ["cd ..","gunicorn3", "-b", "0.0.0.0:8000", "app:app", "--workers=5"]
+CMD ["gunicorn3", "-b", "0.0.0.0:8000", "app:app", "--workers=5"]
