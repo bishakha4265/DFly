@@ -8,3 +8,5 @@ A website with a simple message: "Welcome to Dfly" (Containerized Flask app runn
 3. The repository is equipped with a CI-CD pipeline using Jenkins that does the continuous deployments on a Kubernetes Cluster on AWS EKS Provisioned using AWS        CloudFormation.
 4. The application developed in step(1) is Dockerized and deployed to the kubernetes cluster provisioned above.
 5. Anyone can Submit a Pull-Request to the git repository in and the CI-CD pipeline will push the changes to Kubernetes cluster.
+
+Trying new latest build
