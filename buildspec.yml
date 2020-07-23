@@ -7,23 +7,32 @@ phases:
       - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
       - REPOSITORY_URI=042794132985.dkr.ecr.us-east-1.amazonaws.com/dfly-app
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      - IMAGE_TAG=dfly-app-build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
-      - IMAGE_TAG_1=custom-nginx-build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
+      - IMAGE_TAG_DFLY=dfly-app-build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
+      - IMAGE_TAG_NGINX=custom-nginx-build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
+      - IMAGE_TAG_DFLY_LATEST=dfly-app-build-latest
+      - IMAGE_TAG_NGINX_LATEST=custom-nginx-build-latest
 
   build:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
       - docker build -t $REPOSITORY_URI:latest -f ./DFly-Docker/Dockerfile .
-      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG_DFLY
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG_DFLY_LATEST
       - docker build -t $REPOSITORY_URI:latest -f ./NGINX/Dockerfile .
-      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG_1
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG_NGINX
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG_NGINX_LATEST
 
 
   post_build:
     commands:
+      - echo removing last latest tagged images
+      - $(aws ecr batch-delete-image --repository-name dfly-app --image-ids imageTag=dfly-app-build-latest)
+      - $(aws ecr batch-delete-image --repository-name dfly-app --image-ids imageTag=custom-nginx-build-latest)
       - echo Build completed on `date`
       - echo Pushing the Docker image...
-      - docker push $REPOSITORY_URI:$IMAGE_TAG
-      - docker push $REPOSITORY_URI:$IMAGE_TAG_1
+      - docker push $REPOSITORY_URI:$IMAGE_TAG_DFLY
+      - docker push $REPOSITORY_URI:$IMAGE_TAG_DFLY_LATEST
+      - docker push $REPOSITORY_URI:$IMAGE_TAG_NGINX
+      - docker push $REPOSITORY_URI:$IMAGE_TAG_NGINX_LATEST
 
