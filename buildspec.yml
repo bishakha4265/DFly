@@ -27,6 +27,7 @@ phases:
   post_build:
     commands:
       - echo removing last latest tagged images
+      - $(aws ecr batch-delete-image --repository-name dfly-app --image-ids imageTag=dfly-app-build-latest)
       - echo Build completed on `date`
       - echo Pushing the Docker image...
       - docker push $REPOSITORY_URI:$IMAGE_TAG_DFLY
